@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 0
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: a293034410ea13649bd3df957b15f3ab, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -519,7 +519,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14144
+  m_Name: pb_Mesh14162
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2258,7 +2258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixerGroup: {fileID: 0}
-  masterVolume: 1
+  masterVolume: 0
   sounds:
   - name: Main Theme
     clip: {fileID: 8300000, guid: 995bb91d29f8ed0438a36935be23194b, type: 3}
@@ -3768,7 +3768,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14160
+  m_Name: pb_Mesh14178
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4172,7 +4172,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14202
+  m_Name: pb_Mesh14222
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4417,6 +4417,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1274450356}
   - component: {fileID: 1274450355}
+  - component: {fileID: 1274450357}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -4436,9 +4437,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cfc7fa3414f8a64da0c632fe39d5bdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grid: {fileID: 707413393}
-  fallSpeed: 1
-  showShadow: 1
+  _grid: {fileID: 707413393}
+  _fallSpeed: 1
+  _showShadow: 1
 --- !u!4 &1274450356
 Transform:
   m_ObjectHideFlags: 0
@@ -4453,6 +4454,20 @@ Transform:
   m_Father: {fileID: 1477003599}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1274450357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274450354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe1211922aa58b4da9e28ed482f8137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initialDelay: 0.3
+  _delay: 0.05
 --- !u!1 &1284190260
 GameObject:
   m_ObjectHideFlags: 0
@@ -5882,7 +5897,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh14218
+  m_Name: pb_Mesh14238
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

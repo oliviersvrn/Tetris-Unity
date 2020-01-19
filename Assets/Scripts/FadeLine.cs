@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ public class FadeLine : MonoBehaviour
     private float oldTimeScale;
 
     public delegate void CallBack();
-    private static List<Tuple<int, CallBack>> callBacks = new List<Tuple<int, CallBack>>();
+    private static List<System.Tuple<int, CallBack>> callBacks = new List<System.Tuple<int, CallBack>>();
 
     void Start()
     {
@@ -68,12 +67,12 @@ public class FadeLine : MonoBehaviour
                 {
                     if (priority >= callBacks[i].Item1)
                     {
-                        callBacks.Insert(i, Tuple.Create(priority, cb));
+                        callBacks.Insert(i, System.Tuple.Create(priority, cb));
                         break;
                     }
                 }
                 if (i == callBacks.Count)
-                    callBacks.Add(Tuple.Create(priority, cb));
+                    callBacks.Add(System.Tuple.Create(priority, cb));
             }
 
             fading = true;

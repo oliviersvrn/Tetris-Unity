@@ -4,104 +4,146 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
-    public GridController grid = null;
+    public GridController _grid = null;
 
-    private Tetromino current = null;
-    private Tetromino shadow = null;
-    private List<Tetromino>[] bags = new List<Tetromino>[7];
+    private Tetromino _current = null;
+    private Tetromino _shadow = null;
+    private List<Tetromino>[] _bags = new List<Tetromino>[7];
 
-    private double fallTimer;
-    private double groundTimer;
-    private double groundTimeMax;
-    private int onGroundReset;
-    private int onGroundMaxReset;
+    private double _fallTimer;
+    private double _groundTimer;
+    private double _groundTimeMax;
+    private int _onGroundReset;
+    private int _onGroundMaxReset;
 
     [SerializeField]
-    private double fallSpeed = 1;
-    
+    private double _fallSpeed = 1;
+
     [SerializeField]
-    private bool showShadow = true;
+    private bool _showShadow = true;
+
+    public static GameController instance = null;
+
+    void Awake()
+    {
+		if (instance != null)
+			Destroy(gameObject);
+		else
+			instance = this;
+    }
 
     void Start()
     {
-        fallTimer = 0;
-        groundTimer = 0;
-        groundTimeMax = 0.5f;
+        _fallTimer = 0;
+        _groundTimer = 0;
+        _groundTimeMax = 0.5f;
 
-        onGroundReset = 0;
-        onGroundMaxReset = 3;
+        _onGroundReset = 0;
+        _onGroundMaxReset = 3;
 
         AudioManager.instance.Play("Main Theme");
     }
 
     void Update()
     {
-        // ugly ew
         if (Time.timeScale == 0.0f)
             return;
 
-        if (current == null)
+        if (_current == null)
             DrawTetromino();
-
-        EraseTetromino(current);
 
         if (!TestTetrominoPosition(new Vector2(0, -1)))
         {
-            groundTimer += Time.deltaTime;
+            _groundTimer += Time.deltaTime;
         }
-        else if (groundTimer > 0)
+        else if (_groundTimer > 0)
         {
-            onGroundReset++;
-            if (onGroundReset < onGroundMaxReset)
-                groundTimer = 0;
+            _onGroundReset++;
+            if (_onGroundReset < _onGroundMaxReset)
+                _groundTimer = 0;
         }
 
-        fallTimer += Time.deltaTime;
+        _fallTimer += Time.deltaTime;
 
-        if (fallTimer >= fallSpeed)
+        if (_fallTimer >= _fallSpeed)
         {
             if (TestTetrominoPosition(new Vector2(0, -1)))
-                current.Move(0, -1);
-            else if (groundTimer >= groundTimeMax)
-                PlaceTetromino(current);
-
-            fallTimer = 0;
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && TestTetrominoPosition(new Vector2(-1, 0)))
-        {
-            current.Move(-1, 0);
-            AudioManager.instance.Play("Move");
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow) && TestTetrominoPosition(new Vector2(1, 0)))
-        {
-            current.Move(1, 0);
-            AudioManager.instance.Play("Move");
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow) && TestTetrominoPosition(new Vector2(0, -1)))
-        {
-            current.Move(0, -1);
-            AudioManager.instance.Play("Move");
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            for (int i = -1; i >= -20; i--)
             {
-                if (!TestTetrominoPosition(new Vector2(0, i)))
-                {
-                    current.Move(0, i + 1);
-                    PlaceTetromino(current);
-                    break;
-                }
+                EraseTetromino(_current);
+                _current.Move(0, -1);
+                SpawnTetromino(_current);
+            }
+            else if (_groundTimer >= _groundTimeMax)
+                PlaceTetromino(_current);
+
+            _fallTimer = 0;
+        }
+    }
+
+    public void Left()
+    {
+        if (!TestTetrominoPosition(new Vector2(-1, 0)))
+            return;
+
+        EraseTetromino(_current);
+        _current.Move(-1, 0);
+        AudioManager.instance.Play("Move");
+        SpawnTetromino(_current);
+    }
+
+    public void Right()
+    {
+        if (!TestTetrominoPosition(new Vector2(1, 0)))
+            return;
+
+        EraseTetromino(_current);
+        _current.Move(1, 0);
+        AudioManager.instance.Play("Move");
+        SpawnTetromino(_current);
+    }
+
+    public void Down()
+    {
+        if (!TestTetrominoPosition(new Vector2(0, -1)))
+            return;
+
+        EraseTetromino(_current);
+        _current.Move(0, -1);
+        AudioManager.instance.Play("Move");
+        SpawnTetromino(_current);
+    }
+
+    public void Drop()
+    {
+        for (int i = -1; i >= -20; i--)
+        {
+            if (!TestTetrominoPosition(new Vector2(0, i)))
+            {
+                EraseTetromino(_current);
+                _current.Move(0, i + 1);
+                PlaceTetromino(_current);
+                break;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Z))
-            Rotate(-1);
-        if (Input.GetKeyDown(KeyCode.D))
-            Rotate(1);
+    }
 
-        if (current != null)
-            SpawnTetromino(current);
+    public void RotateLeft()
+    {
+        EraseTetromino(_current);
+        Rotate(-1);
+        SpawnTetromino(_current);
+    }
+
+    public void RotateRight()
+    {
+        EraseTetromino(_current);
+        Rotate(1);
+        SpawnTetromino(_current);
+    }
+
+    public void Hold()
+    {
+        
     }
 
     List<Vector2> GetTetrominoAsBlockList(Tetromino piece)
@@ -120,24 +162,24 @@ public class GameController : MonoBehaviour
 
     void SpawnTetromino(Tetromino piece)
     {
-        if (showShadow)
+        if (_showShadow)
             RenderShadow();
 
         List<Vector2> blockList = GetTetrominoAsBlockList(piece);
-        grid.SetBlock(blockList.ToArray(), piece.color, true);
+        _grid.SetBlock(blockList.ToArray(), piece.color, true);
     }
 
     void EraseTetromino(Tetromino piece)
     {
         List<Vector2> blockList = GetTetrominoAsBlockList(piece);
-        grid.UnsetBlock(blockList.ToArray(), true);
+        _grid.UnsetBlock(blockList.ToArray(), true);
     }
 
     void RenderShadow()
     {
-        if (current == null)
+        if (_current == null)
         {
-            shadow = null;
+            _shadow = null;
             return;
         }
 
@@ -145,16 +187,16 @@ public class GameController : MonoBehaviour
         {
             if (!TestTetrominoPosition(new Vector2(0, i)))
             {
-                if (shadow != null)
-                    grid.UnsetBlock(GetTetrominoAsBlockList(shadow).ToArray(), true);
+                if (_shadow != null)
+                    _grid.UnsetBlock(GetTetrominoAsBlockList(_shadow).ToArray(), true);
 
-                shadow = new Tetromino(current.id, current.rotation, current.position);
-                shadow.Move(0, i + 1);
+                _shadow = new Tetromino(_current.id, _current.rotation, _current.position);
+                _shadow.Move(0, i + 1);
 
-                Color color = shadow.color;
+                Color color = _shadow.color;
                 color.a = 0.3f;
 
-                grid.SetBlock(GetTetrominoAsBlockList(shadow).ToArray(), color, true);
+                _grid.SetBlock(GetTetrominoAsBlockList(_shadow).ToArray(), color, true);
                 break;
             }
         }
@@ -162,15 +204,15 @@ public class GameController : MonoBehaviour
 
     bool TestTetrominoPosition(Vector2 offset)
     {
-        if (current == null)
+        if (_current == null)
             return false;
 
-        List<Vector2> blockList = GetTetrominoAsBlockList(current);
+        List<Vector2> blockList = GetTetrominoAsBlockList(_current);
 
         for (int i = 0; i < blockList.Count; i++)
             blockList[i] += offset;
 
-        return grid.IsBlockAvailable(blockList.ToArray());
+        return _grid.IsBlockAvailable(blockList.ToArray());
     }
 
     void PlaceTetromino(Tetromino piece)
@@ -178,16 +220,16 @@ public class GameController : MonoBehaviour
         AudioManager.instance.Play("Drop");
 
         List<Vector2> blockList = GetTetrominoAsBlockList(piece);
-        grid.SetBlock(blockList.ToArray(), piece.color, false);
+        _grid.SetBlock(blockList.ToArray(), piece.color, false);
 
-        SpawnTetromino(current);
-        current = null;
+        SpawnTetromino(_current);
+        _current = null;
 
-        fallTimer = 0;
-        groundTimer = 0;
-        onGroundReset = 0;
+        _fallTimer = 0;
+        _groundTimer = 0;
+        _onGroundReset = 0;
 
-        var lines = grid.CheckFullLines();
+        var lines = _grid.CheckFullLines();
 
         if (lines.Length >= 4)
             AudioManager.instance.Play("Four Lines");
@@ -196,22 +238,22 @@ public class GameController : MonoBehaviour
 
         foreach (var line in lines)
         {
-            grid.UnsetLine(line, true, true);
+            _grid.UnsetLine(line, true, true);
         }
     }
 
     void Rotate(int dx)
     {
-        List<Vector2> offsets = GetRotationOffset(current, dx);
+        List<Vector2> offsets = GetRotationOffset(_current, dx);
         int offset_id = -1;
 
         for (int i = 0; i < offsets.Count; i++)
         {
-            Tetromino copy = new Tetromino(current.id, current.rotation, current.position);
+            Tetromino copy = new Tetromino(_current.id, _current.rotation, _current.position);
 
             copy.Move(offsets[i]);
             copy.Rotate(dx);
-            if (grid.IsBlockAvailable(GetTetrominoAsBlockList(copy).ToArray()))
+            if (_grid.IsBlockAvailable(GetTetrominoAsBlockList(copy).ToArray()))
             {
                 offset_id = i;
                 break;
@@ -220,8 +262,8 @@ public class GameController : MonoBehaviour
 
         if (offset_id != -1)
         {
-            current.Rotate(dx);
-            current.Move(offsets[offset_id]);
+            _current.Rotate(dx);
+            _current.Move(offsets[offset_id]);
             AudioManager.instance.Play("Rotate");
         }
     }
@@ -265,23 +307,23 @@ public class GameController : MonoBehaviour
     {
         DrawBags();
 
-        current = bags[0][0];
-        bags[0].RemoveAt(0);
-        bags[0].Add(bags[1][0]);
-        bags[1].RemoveAt(0);
+        _current = _bags[0][0];
+        _bags[0].RemoveAt(0);
+        _bags[0].Add(_bags[1][0]);
+        _bags[1].RemoveAt(0);
     }
 
     void DrawBags()
     {
-        for (int i = 0; i < bags.Length; i++)
+        for (int i = 0; i < _bags.Length; i++)
         {
-            if (bags[i] == null || bags[i].Count == 0)
+            if (_bags[i] == null || _bags[i].Count == 0)
             {
-                bags[i] = new List<Tetromino>();
+                _bags[i] = new List<Tetromino>();
                 int[] randomArray = GetRandomizedArray(7);
                 for (int j = 0; j < 7; j++)
                 {
-                    bags[i].Add(new Tetromino((Tetromino.Name)randomArray[j], Tetromino.Rotation.UP, new Vector2(2, 18)));
+                    _bags[i].Add(new Tetromino((Tetromino.Name)randomArray[j], Tetromino.Rotation.UP, new Vector2(2, 18)));
                 }
             }
         }
