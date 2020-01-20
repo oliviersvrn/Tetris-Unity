@@ -50,7 +50,10 @@ public class GameController : MonoBehaviour
             return;
 
         if (_current == null)
+        {
             DrawTetromino();
+            RenderShadow();
+        }
 
         if (!TestTetrominoPosition(new Vector2(0, -1)))
         {
@@ -87,6 +90,7 @@ public class GameController : MonoBehaviour
 
         EraseTetromino(_current);
         _current.Move(-1, 0);
+        RenderShadow();
         AudioManager.instance.Play("Move");
         SpawnTetromino(_current);
     }
@@ -98,6 +102,7 @@ public class GameController : MonoBehaviour
 
         EraseTetromino(_current);
         _current.Move(1, 0);
+        RenderShadow();
         AudioManager.instance.Play("Move");
         SpawnTetromino(_current);
     }
@@ -109,6 +114,7 @@ public class GameController : MonoBehaviour
 
         EraseTetromino(_current);
         _current.Move(0, -1);
+        RenderShadow();
         AudioManager.instance.Play("Move");
         SpawnTetromino(_current);
     }
@@ -131,6 +137,7 @@ public class GameController : MonoBehaviour
     {
         EraseTetromino(_current);
         Rotate(-1);
+        RenderShadow();
         SpawnTetromino(_current);
     }
 
@@ -138,6 +145,7 @@ public class GameController : MonoBehaviour
     {
         EraseTetromino(_current);
         Rotate(1);
+        RenderShadow();
         SpawnTetromino(_current);
     }
 
