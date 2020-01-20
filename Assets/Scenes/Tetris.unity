@@ -2258,10 +2258,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixerGroup: {fileID: 0}
-  masterVolume: 0
+  masterVolume: 1
   sounds:
   - name: Main Theme
-    clip: {fileID: 8300000, guid: 995bb91d29f8ed0438a36935be23194b, type: 3}
+    clip: {fileID: 8300000, guid: 83aa6db7ea7dcfe41bc94c2e2c41769e, type: 3}
     volume: 0.2
     volumeVariance: 0
     pitch: 1
@@ -2270,7 +2270,7 @@ MonoBehaviour:
     mixerGroup: {fileID: 0}
     source: {fileID: 0}
   - name: Drop
-    clip: {fileID: 8300000, guid: f93bc7d589856074694e2a3f95936e8c, type: 3}
+    clip: {fileID: 8300000, guid: 14a830e047b7c784fa481621033c2565, type: 3}
     volume: 0.7
     volumeVariance: 0
     pitch: 1
@@ -2279,7 +2279,7 @@ MonoBehaviour:
     mixerGroup: {fileID: 0}
     source: {fileID: 0}
   - name: Rotate
-    clip: {fileID: 8300000, guid: e7546aa72e4933e4a936f9891db789eb, type: 3}
+    clip: {fileID: 8300000, guid: 0f94258e0aaefe445af487027f2cb66c, type: 3}
     volume: 0.7
     volumeVariance: 0
     pitch: 1
@@ -2288,7 +2288,7 @@ MonoBehaviour:
     mixerGroup: {fileID: 0}
     source: {fileID: 0}
   - name: Move
-    clip: {fileID: 8300000, guid: 1b2ba7456ebab1a47ac24501b8e8f9f7, type: 3}
+    clip: {fileID: 8300000, guid: d1372669be72e9f4f9a5ae3c3c397b98, type: 3}
     volume: 0.7
     volumeVariance: 0
     pitch: 1
@@ -2297,7 +2297,7 @@ MonoBehaviour:
     mixerGroup: {fileID: 0}
     source: {fileID: 0}
   - name: Line
-    clip: {fileID: 8300000, guid: 57984244944d7684886f50f794800793, type: 3}
+    clip: {fileID: 8300000, guid: abb94b174aea58c47a9a278450fc5692, type: 3}
     volume: 0.7
     volumeVariance: 0
     pitch: 1
@@ -2306,7 +2306,7 @@ MonoBehaviour:
     mixerGroup: {fileID: 0}
     source: {fileID: 0}
   - name: Four Lines
-    clip: {fileID: 8300000, guid: ec59ff18c8ef0284db6b1aa9fdcbfa2e, type: 3}
+    clip: {fileID: 8300000, guid: 981f84a4f6618714e9ff2a5be2fd1e1d, type: 3}
     volume: 0.7
     volumeVariance: 0
     pitch: 1
